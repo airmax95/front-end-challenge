@@ -1,13 +1,132 @@
-body{font-family: "Arial"}
-a{text-decoration: none;}
+/*****************************
+// WEB STYLES 
+*****************************/
 
-.product-container{width:300px; border:1px solid #aaa; margin:10px; display:inline-block;}
-.product-container img{width:100%; height:auto;}
-.row{width:946px;}
+.loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
 
-.col1{float:left;}
-.col2{margin:10px auto;}
-.col3{float:right;}
+.main-title {
+  font-size: 36px;
+  text-align: center;
+}
 
-.title{font-size:20px;}
-.description{padding:10px;}
+.main-tagline {
+  font-size: 18px;
+  text-align: center;
+}
+
+#content {
+  margin-top: 16px;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.product-container {
+  padding: 8px;
+}
+
+.product-container img {
+  width: 100%;
+}
+
+.row{
+  width:946px;
+}
+
+.col1 {
+  float:left;
+}
+
+.col2 {
+  margin: 0 auto;
+}
+
+.col3 {
+  float: right;
+}
+
+.description {
+  padding: 16px;
+}
+
+.cover h3 {
+  text-overflow: none;
+}
+
+.remove-item {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  padding: 8px;
+  color: white;
+  opacity: 0.5;
+  z-index: 100;
+  cursor: pointer;
+}
+
+.description {
+  visibility: hidden;
+  position: absolute;
+  top: 16px;
+  font-size: 14px;
+  color: white;
+  padding: 16px 24px 8px 12px;
+}
+
+.product-card {
+  background: black;
+  border:1px solid #aaa; 
+}
+
+.card-text {
+  font-size: 16px;
+  color: #0096ff;
+  background: white;
+  padding: 8px;
+}
+
+.product-container img {
+  height: auto;
+  width: 100%;
+}
+
+.product-container:hover .img {
+  opacity: 0.5;
+  transition: opacity .2s ease-in-out;
+}
+
+.product-container:hover .description {
+  visibility: visible;
+}
+
+/*****************************
+// MOBILE STYLES 
+*****************************/
+
+@media only screen and (max-width : 768px) {
+  .remove-item {
+    position: absolute;
+    right: 24px;
+    padding: 8px;
+    color: #0096ff;
+    opacity: 0.7;
+    cursor: pointer;
+    font-size: 36px;
+  }
+
+  .product-container:hover .img {
+    opacity: 1;
+  }
+
+  .product-container:hover .description {
+    visibility: hidden;
+  }
+}

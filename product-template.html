@@ -1,9 +1,19 @@
-<div class="product-container {custom_class}">
-  <a href="{url}">
-    <img src="{image}">
+<div class="product-container col-xs-12 col-md-4 {custom_class}">
+  
+  <div class="remove-item">x</div>
+  
+  <a href="{url}" >
+    <div class="product-card">
+      <img class="img" src="{image}">
+      <div class="card-text">
+        <div class="title">{title}</div>
+        <div class="tagline">{tagline}</div>
+      </div>
+    </div>
+    
     <div class="description">
-      <div class="title">{title}</div>
-      <div class="tagline">{tagline}</div>
+      <div>{description}</div>
     </div>
   </a>
+  
 </div>
