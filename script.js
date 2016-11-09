@@ -6,63 +6,25 @@
   //  PAGE CLASS
   //********************************  
 
-  function Page(){
-    this.aProducts = [];
-  }
+  function Page(){}
 
   Page.prototype.getProducts = function(url) {
-    var selfie = this;
-    return $.getJSON(url)
-      .then(function(response) {
-        return selfie.fillProductsArray(response);
-      });
+    return $.getJSON(url);
   };
 
-  Page.prototype.fillProductsArray = function(oProducts) {
-    var selfie = this;
-    oProducts.sales.map(function(oItem, idx) {
-      return selfie.aProducts.push(new Product(oItem, idx));
-    });
-    return selfie.getTemplate();
-  };
-      
-  Page.prototype.getTemplate = function(){
-    var selfie = this;
-    return $.get('product-template.html')
-      .then(function(template) {
-        return selfie.updateProductHtml(template);
-      });
+  Page.prototype.getTemplate = function(template){
+    return $.get(template);
   };
 
-  Page.prototype.updateProductHtml = function(template) {
-    this.aProducts.map(function(oItem) {
-      return oItem.updateHtml(template);
-    });
-    return this.updateDom();
-  };
-  
-  Page.prototype.updateDom = function(){
+  Page.prototype.setUpProductView = function(aProducts, template) {
+    var oProduct = {};
     var viewHtml = '';
-    this.aProducts.map(function(oProduct) {
-      return viewHtml += oProduct.productTemplate;
+    aProducts.map(function(oItem, idx) {
+      oProduct = new Product(oItem, idx);
+      oProduct.updateHtml(template);
+      viewHtml += oProduct.productTemplate;
     });
-    return this.appendProducts(viewHtml);
-  };
-
-  Page.prototype.appendProducts = function(viewHtml) {
-    $('#content').append(viewHtml);
-    removeSpinner();
-    return this.listenForRemoveItem();
-  };
-
-  Page.prototype.listenForRemoveItem = function() {
-    return $('#content').on('click', '.remove-item', this.removeProduct);
-  };
-
-  Page.prototype.removeProduct = function(e) {
-    e.preventDefault();
-    var target = $(this.closest('.product-container'));
-    return target.hide('fast');
+    return appendProducts(viewHtml);
   };
 
   //********************************
@@ -94,8 +56,23 @@
   //  UTILITY
   //******************************** 
 
+  function appendProducts(viewHtml) {
+    $('#content').append(viewHtml);
+    return removeSpinner();
+  }
+
   function removeSpinner() {
     return $('.loading-spinner').remove(); 
+  }
+
+  function listenForRemoveItem() {
+    return $('#content').on('click', '.remove-item', removeProduct);
+  }
+
+  function removeProduct(e) {
+    e.preventDefault();
+    var target = $(this.closest('.product-container'));
+    return target.hide('fast');
   }
 
   //********************************
@@ -104,12 +81,20 @@
 
   (function init() {
     var page = new Page();
-    page.getProducts('data.json');
+    listenForRemoveItem();
+    return $.when(page.getProducts('data.json'), page.getTemplate('product-template.html'))
+      .done(function(oProducts, template) {
+        return page.setUpProductView(oProducts[0].sales, template[0]);
+      });
   })();
   
 })(window.jQuery);
 
 /********************************
+
+UPDATED REFACTOR 11/8/16:
+
+Set up the product view after all promises have been resolved. Also optimized by consolidating the page methods that were iterating over the same products array and moved some methods into the utility section.
 
 COMMENTARY:
 
